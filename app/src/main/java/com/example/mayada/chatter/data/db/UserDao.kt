@@ -8,10 +8,10 @@ import android.arch.persistence.room.Query
 @Dao
 interface UserDao{
     @Query("SELECT * from users")
-    fun getAllUsers(): LiveData<ArrayList<Message>>
+    fun getAllUsers(): LiveData<ArrayList<User>>
 
     @Insert
-    fun insert(word: Message)
+    fun insert(word: User)
 
     @Query("DELETE FROM users")
     fun deleteAll()
