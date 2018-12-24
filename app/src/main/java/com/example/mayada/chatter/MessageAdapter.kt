@@ -4,12 +4,11 @@ import android.content.Context
 import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.text.InputType
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
+import com.example.mayada.chatter.data.db.Message
 
 class MessageAdapter(var messages: ArrayList<Message>) : RecyclerView.Adapter<MessageAdapter.ViewHolder>() {
 

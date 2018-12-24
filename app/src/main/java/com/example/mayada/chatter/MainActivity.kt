@@ -5,11 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
+import com.example.mayada.chatter.data.db.Message
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.chat_header.*
-import kotlinx.android.synthetic.main.first_user_message.*
 import java.lang.IllegalArgumentException
 
 class MainActivity : AppCompatActivity() {
@@ -27,13 +26,14 @@ class MainActivity : AppCompatActivity() {
         messages_recycler_view.adapter = messageAdapter
         messages_recycler_view.addItemDecoration(MarginItemDecoration(12))
         buttonOK.setOnClickListener {
+            val currentId = edit_message.id
             val currentText = edit_message.text.toString()
             val currentUser = when (radio_group.checkedRadioButtonId) {
                 R.id.user1Select -> 1
                 R.id.user2Select -> 2
                 else -> throw IllegalArgumentException()
             }
-            messageAdapter.postMessage(Message(currentUser, currentText))
+            messageAdapter.postMessage(Message(currentId, currentUser, currentText))
             messageAdapter.notifyDataSetChanged()
             edit_message.text.clear()
             HeaderInfo()
