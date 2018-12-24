@@ -1,0 +1,11 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <solid android:color="@color/second_user_massage_hue"/>
+    <size
+            android:height="15dp"
+            android:width="30dp"
+    />
+    <stroke
+            android:width="1dp"
+            android:color="@color/colorPrimary"/>
+</shape>

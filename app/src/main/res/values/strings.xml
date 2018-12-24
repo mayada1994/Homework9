@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Chatter</string>
+    <string name="edit_text_hint">Enter text message</string>
+    <string name="ok_button_text">OK</string>
+    <string name="user_1">User 1</string>
+    <string name="user_2">User 2</string>
+    <string name="menu_edit_text">Edit</string>
+    <string name="menu_delete_text">Delete</string>
+    <string name="menu_cancel_text">Cancel</string>
+</resources>

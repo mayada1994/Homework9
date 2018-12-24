@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#676e8d</color>
+    <color name="colorPrimaryDark">#3d445c</color>
+    <color name="colorAccent">#643297</color>
+    <color name="first_user_text">#ba2644</color>
+    <color name="first_user_massage">#ffbcbf</color>
+    <color name="first_user_massage_hue">#ffe6d1</color>
+    <color name="second_user_text">#660099</color>
+    <color name="second_user_massage">#da9df0</color>
+    <color name="second_user_massage_hue">#d6caf0</color>
+    <color name="button">#d1999f</color>
+    <color name="panel">#ad98b2</color>
+    <color name="general_text">#7e3e78</color>
+</resources>
