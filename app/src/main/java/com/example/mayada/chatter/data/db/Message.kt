@@ -1,12 +1,16 @@
 package com.example.mayada.chatter.data.db
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "messages")
-data class Message (
-    @PrimaryKey(autoGenerate = true)
-    private val id: Int,
+data class Message(
+    @ColumnInfo(name = "message_user")
     val messageUser: Int,
+    @ColumnInfo(name = "message_text")
     var messageText: String
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0
+}

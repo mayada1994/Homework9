@@ -1,18 +1,16 @@
 package com.example.mayada.chatter.data.db
 
-import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 @Dao
 interface UserDao{
-    @Query("SELECT * from users")
-    fun getAllUsers(): LiveData<ArrayList<User>>
 
     @Insert
-    fun insert(word: User)
+    fun insert(user: User)
 
-    @Query("DELETE FROM users")
-    fun deleteAll()
+    @Query("SELECT * from users ORDER BY id ASC")
+    fun getAllUsers(): LiveData<List<User>>
 }

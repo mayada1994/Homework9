@@ -1,66 +1,60 @@
 package com.example.mayada.chatter
 
-import android.graphics.Rect
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.mayada.chatter.data.db.Message
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.chat_header.*
+import com.example.mayada.chatter.viewmodels.MessageViewModel
 import java.lang.IllegalArgumentException
 
 class MainActivity : AppCompatActivity() {
-    private var messages: ArrayList<Message> = ArrayList()
-    private var messageAdapter: MessageAdapter = MessageAdapter(messages)
-
-    private var user1AmountOfMessages: Int = 0
-    private var user2AmountOfMessages: Int = 0
+    private lateinit var messageViewModel: MessageViewModel
+    private lateinit var messageAdapter: MessageAdapter
+    lateinit var firstUser: TextView
+    lateinit var secondUser: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        HeaderInfo()
-        messages_recycler_view.layoutManager = LinearLayoutManager(this)
-        messages_recycler_view.adapter = messageAdapter
-        messages_recycler_view.addItemDecoration(MarginItemDecoration(12))
-        buttonOK.setOnClickListener {
-            val currentId = edit_message.id
-            val currentText = edit_message.text.toString()
-            val currentUser = when (radio_group.checkedRadioButtonId) {
+        firstUser = findViewById<TextView>(R.id.first_user_count)
+        secondUser = findViewById<TextView>(R.id.second_user_count)
+        messageViewModel = ViewModelProviders.of(this).get(MessageViewModel::class.java)
+        messageAdapter = messageViewModel.adapter
+        val recyclerView = findViewById<RecyclerView>(R.id.messages_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = messageAdapter
+        recyclerView.addItemDecoration(MarginItemDecoration(12))
+
+        messageViewModel.getAllMessages().observe(this, Observer { message ->
+           messageAdapter.setMessagesArray(message)
+            messageViewModel.HeaderInfo(firstUser, secondUser)
+        })
+        val button = findViewById<Button>(R.id.buttonOK)
+        val editMessage = findViewById<EditText>(R.id.edit_message)
+        val radioGroup = findViewById<RadioGroup>(R.id.radio_group)
+        button.setOnClickListener {
+            val currentText = editMessage.text.toString()
+            val currentUser = when (radioGroup.checkedRadioButtonId) {
                 R.id.user1Select -> 1
                 R.id.user2Select -> 2
                 else -> throw IllegalArgumentException()
             }
-            messageAdapter.postMessage(Message(currentId, currentUser, currentText))
-            messageAdapter.notifyDataSetChanged()
-            edit_message.text.clear()
-            HeaderInfo()
+            messageViewModel.InsertMessage(Message(currentUser, currentText))
+            messageViewModel.HeaderInfo(firstUser, secondUser)
+            editMessage.text.clear()
         }
-    }
 
-    fun HeaderInfo()
-    {
-        user1AmountOfMessages = messages.filter { it.messageUser == 1 }.count()
-        user2AmountOfMessages = messages.filter { it.messageUser == 2 }.count()
-        var user1Display: String = resources.getString(R.string.user_1) + ": " + user1AmountOfMessages.toString()
-        var user2Display: String = resources.getString(R.string.user_2) + ": " + user2AmountOfMessages.toString()
-        first_user_count.text = user1Display
-        second_user_count.text = user2Display
-    }
-
-    class MarginItemDecoration(private val spaceHeight: Int) : RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(outRect: Rect, view: View,
-                                    parent: RecyclerView, state: RecyclerView.State) {
-            with(outRect) {
-                if (parent.getChildAdapterPosition(view) == 0) {
-                    top = spaceHeight
-                }
-                left =  spaceHeight
-                right = spaceHeight
-                bottom = spaceHeight
+        messageAdapter.setOnItemClickListener(object : MessageAdapter.OnItemClickListener {
+            override fun onItemClick(message: Message, view: View) {
+                val editText = findViewById<EditText>(R.id.edit_current_text)
+                messageViewModel.HeaderInfo(firstUser, secondUser)
+                messageViewModel!!.showPopup(view, message, this@MainActivity, editText)
             }
-        }
+        })
     }
 }

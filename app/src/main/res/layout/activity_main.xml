@@ -93,11 +93,10 @@
 
     <include layout="@layout/chat_header"/>
 
-    <android.support.v7.widget.RecyclerView
-            xmlns:tools="http://schemas.android.com/tools"
+    <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/messages_recycler_view"
             android:background="@drawable/chat_background">
-    </android.support.v7.widget.RecyclerView>
+    </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
